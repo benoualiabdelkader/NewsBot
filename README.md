@@ -271,7 +271,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Benouali Abdelkader**
 
 - GitHub: [@benoualiabdelkader](https://github.com/benoualiabdelkader)
-- Email: [your-email@example.com](mailto:abdelkaderbenouali301@gmail.com)
+- Email: [abdelkaderbenouali301@gmail.com](mailto:abdelkaderbenouali301@gmail.com)
 - Project Link: [https://github.com/benoualiabdelkader/NewsBot](https://github.com/benoualiabdelkader/NewsBot)
 
 ## 🙏 Acknowledgments
