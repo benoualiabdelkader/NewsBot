@@ -2,10 +2,10 @@
 
 // API Keys
 const NEWS_API_KEY = 'your_api_key';
-const YOUTUBE_API_KEY = 'AIzaSyAF2FaJTmd0Rkh54r7hSk6bm-dvmoCxRYc';
-const GOOGLE_SEARCH_API_KEY = 'AIzaSyCwN0JyeRoYmWPUJCV4uzU8-I4G2Xu4xCs';
-const GOOGLE_SEARCH_ENGINE_ID = 'f474a749d967b4e6c';
-const GEMINI_API_KEY = 'AIzaSyAPlZAyhfo-zQZ3CwqWVY5qNDeUNNmykK8';
+const YOUTUBE_API_KEY = 'your_api_key';
+const GOOGLE_SEARCH_API_KEY = 'your_api_key';
+const GOOGLE_SEARCH_ENGINE_ID = 'your_id';
+const GEMINI_API_KEY = 'your_api_key';
 
 // DOM Elements
 document.addEventListener('DOMContentLoaded', () => {
