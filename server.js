@@ -58,7 +58,7 @@ app.get('/bookmarks', (req, res) => {
 });
 
 // API Key 
-const apiKey = "AIzaSyAPlZAyhfo-zQZ3CwqWVY5qNDeUNNmykK8";
+const apiKey = "your_api_key";
 const genAI = new GoogleGenerativeAI(apiKey);
 
 // Model configuration
