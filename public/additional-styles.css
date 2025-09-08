@@ -1,0 +1,89 @@
+.toast-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 2000;
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.toast-message.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.news-card.removing {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.btn-danger {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #e60000;
+}
+
+/* Additional Media Queries for Better Mobile Experience */
+@media (max-width: 480px) {
+  .card-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .card-actions button {
+    width: 100%;
+  }
+  
+  .toast-message {
+    width: 80%;
+    text-align: center;
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+  
+  .search-form input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .search-form button {
+    width: 100%;
+  }
+}
+
+/* Print styles for better printing experience */
+@media print {
+  .header, .footer, .nav, .chatbot-window, 
+  .mobile-menu-btn, .card-actions, .nav-icons {
+    display: none !important;
+  }
+  
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .news-card {
+    break-inside: avoid;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+}

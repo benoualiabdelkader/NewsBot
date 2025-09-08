@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewsBot Project Showcase</title>
+  <style>
+    /* Basic styling for the showcase page */
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #f7f7fb;
+      --text-color: #333;
+      --light-text: #666;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #f9f9fd;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      background-color: white;
+      box-shadow: var(--box-shadow);
+      padding: 1rem 0;
+      margin-bottom: 3rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      height: 40px;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+    }
+    
+    h2 {
+      margin: 2rem 0 1rem;
+      font-size: 1.8rem;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .hero {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 3rem;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--light-text);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px 24px;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background-color: #2c4be0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .screenshot {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: block;
+    }
+    
+    .api-section {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 3rem;
+    }
+    
+    .api-list {
+      list-style-type: none;
+      margin: 1rem 0;
+    }
+    
+    .api-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .api-list li:last-child {
+      border-bottom: none;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid #eee;
+      color: var(--light-text);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .hero {
+        padding: 2rem 1rem;
+      }
+      
+      .feature-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <img src="./public/assets/logo.svg" alt="NewsBot Logo">
+        <span class="logo-text">NewsBot</span>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="hero">
+        <h1>NewsBot: Intelligent News Platform</h1>
+        <p>A modern, responsive news web application that integrates multiple news APIs and features an AI-powered chatbot assistant.</p>
+      <div class="error-actions">
+        <a href="/app" class="btn btn-primary">
+          <i class="fas fa-newspaper"></i> Launch Demo
+        </a>
+        <a href="/status" class="btn">
+          <i class="fas fa-check-circle"></i> System Status
+        </a>
+        <a href="/public/account.html" class="btn">
+          <i class="fas fa-user"></i> Account Demo
+        </a>
+      </div>
+      </div>
+      
+      <h2>Key Features</h2>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-newspaper"></i>
+          </div>
+          <h3>Curated News Feed</h3>
+          <p>Get top stories and trending news from multiple reliable sources, all in one place. Responsive design works on any device.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>AI News Assistant</h3>
+          <p>Chat with an intelligent bot that can answer questions about current events, summarize articles, and provide insights.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-video"></i>
+          </div>
+          <h3>Live News Streams</h3>
+          <p>Watch live broadcasts from major news networks around the world. Never miss breaking news as it happens.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Smart Search</h3>
+          <p>Find exactly what you're looking for with our powerful search that combines web articles, images, and videos in one place.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bookmark"></i>
+          </div>
+          <h3>Save Favorites</h3>
+          <p>Save articles to read later and access them from any device. Your personalized news collection is always available.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-th-large"></i>
+          </div>
+          <h3>Category Filtering</h3>
+          <p>Browse news by categories including Technology, Sports, Health, Entertainment, Business, and more.</p>
+        </div>
+      </div>
+      
+      <h2>Application Screenshots</h2>
+      <img src="./public/assets/placeholder.jpg" alt="NewsBot Screenshot" class="screenshot">
+      
+      <div class="api-section">
+        <h2>Integrated APIs</h2>
+        <p>This application demonstrates integration with multiple news and media APIs:</p>
+        <ul class="api-list">
+          <li><strong>NewsAPI.org:</strong> For fetching top headlines and category-based news articles</li>
+          <li><strong>Google Custom Search API:</strong> For comprehensive web search capabilities</li>
+          <li><strong>YouTube Data API:</strong> For retrieving live news streams and related videos</li>
+          <li><strong>Google Gemini AI:</strong> For powering the intelligent news assistant chatbot</li>
+        </ul>
+        <p><strong>Note:</strong> The demo currently uses mock data for API responses to ensure reliable demonstration. In a production environment, these would be replaced with live API calls.</p>
+      </div>
+      
+      <h2>Technical Implementation</h2>
+      <p>This project is built using the following technologies:</p>
+      <ul>
+        <li>Frontend: HTML5, CSS3, JavaScript (ES6+)</li>
+        <li>Backend: Node.js with Express</li>
+        <li>AI Integration: Google Gemini API</li>
+        <li>Responsive Design: Custom CSS with Flexbox and Grid layouts</li>
+        <li>Data Storage: LocalStorage for favorites and user preferences</li>
+      </ul>
+      
+      <h2>Future Enhancements</h2>
+      <p>Planned features for future versions:</p>
+      <ul>
+        <li>User authentication system</li>
+        <li>Personalized news recommendations based on reading habits</li>
+        <li>Dark/light theme toggle</li>
+        <li>Push notifications for breaking news</li>
+        <li>Offline reading capabilities</li>
+        <li>More advanced AI chatbot features</li>
+      </ul>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 NewsBot. Created as a demonstration project.</p>
+    </div>
+  </footer>
+</body>
+</html>

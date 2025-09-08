@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmarks - NewsBot</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .bookmarks-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    
+    .page-header {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header-left h1 {
+      margin: 0;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .header-left p {
+      margin: 0.5rem 0 0 0;
+      color: #666;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .btn {
+      background: #4361ee;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    .filters {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .filter-row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filter-select, .filter-input {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: white;
+    }
+    
+    .bookmarks-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4361ee;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    
+    .bookmarks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .bookmark-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .bookmark-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .bookmark-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .bookmark-content {
+      padding: 1.5rem;
+    }
+    
+    .bookmark-meta {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .bookmark-category {
+      background: #4361ee;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    
+    .bookmark-date {
+      margin-left: auto;
+    }
+    
+    .bookmark-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+      color: #333;
+    }
+    
+    .bookmark-excerpt {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .bookmark-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .bookmark-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .tag {
+      background: #f8f9fa;
+      color: #666;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+    }
+    
+    .bookmark-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .control-btn {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .control-btn:hover {
+      background: #f8f9fa;
+      color: #4361ee;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .empty-icon {
+      font-size: 4rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    
+    .back-link {
+      display: inline-block;
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      .bookmarks-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bookmarks-container">
+    <a href="/app" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to NewsBot
+    </a>
+    
+    <div class="page-header">
+      <div class="header-left">
+        <h1>
+          <i class="fas fa-bookmark"></i>
+          My Bookmarks
+        </h1>
+        <p>Your saved articles and favorite stories</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="clearAllBookmarks()">
+          <i class="fas fa-trash"></i> Clear All
+        </button>
+        <button class="btn" onclick="exportBookmarks()">
+          <i class="fas fa-download"></i> Export
+        </button>
+      </div>
+    </div>
+    
+    <div class="bookmarks-stats">
+      <div class="stat-card">
+        <div class="stat-number" id="total-bookmarks">0</div>
+        <div class="stat-label">Total Bookmarks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="this-week">0</div>
+        <div class="stat-label">This Week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="categories-count">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="avg-per-week">0</div>
+        <div class="stat-label">Avg Per Week</div>
+      </div>
+    </div>
+    
+    <div class="filters">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label>Category:</label>
+          <select class="filter-select" id="category-filter">
+            <option value="">All Categories</option>
+            <option value="technology">Technology</option>
+            <option value="business">Business</option>
+            <option value="health">Health</option>
+            <option value="science">Science</option>
+            <option value="sports">Sports</option>
+            <option value="entertainment">Entertainment</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Date:</label>
+          <select class="filter-select" id="date-filter">
+            <option value="">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Search:</label>
+          <input type="text" class="filter-input" id="search-filter" placeholder="Search bookmarks...">
+        </div>
+      </div>
+    </div>
+    
+    <div id="bookmarks-content">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-bookmark"></i>
+        </div>
+        <h3>No bookmarks yet</h3>
+        <p>Start saving articles by clicking the bookmark icon on any story</p>
+        <a href="/app" class="btn">
+          <i class="fas fa-newspaper"></i> Browse News
+        </a>
+      </div>
+      
+      <div class="bookmarks-grid" id="bookmarks-grid" style="display: none;">
+        <!-- Bookmarks will be dynamically loaded here -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let bookmarks = [];
+    
+    // Load bookmarks from localStorage
+    function loadBookmarks() {
+      const saved = localStorage.getItem('newsbot-favorites');
+      bookmarks = saved ? JSON.parse(saved) : [];
+      
+      // Add some sample bookmarks if empty
+      if (bookmarks.length === 0) {
+        bookmarks = [
+          {
+            id: '1',
+            title: 'Revolutionary AI Breakthrough Changes Everything',
+            excerpt: 'Scientists have developed a new artificial intelligence system that can understand and generate human-like responses with unprecedented accuracy.',
+            category: 'technology',
+            image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=200&fit=crop',
+            date: new Date().toISOString(),
+            tags: ['AI', 'Technology', 'Innovation'],
+            url: '#'
+          },
+          {
+            id: '2',
+            title: 'Global Markets Show Strong Recovery Signs',
+            excerpt: 'International markets are displaying positive indicators as investors show renewed confidence in the global economy.',
+            category: 'business',
+            image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400&h=200&fit=crop',
+            date: new Date(Date.now() - 86400000).toISOString(),
+            tags: ['Markets', 'Economy', 'Finance'],
+            url: '#'
+          },
+          {
+            id: '3',
+            title: 'Climate Summit Reaches Historic Agreement',
+            excerpt: 'World leaders have agreed on groundbreaking measures to combat climate change and reduce global carbon emissions.',
+            category: 'science',
+            image: 'https://images.unsplash.com/photo-1569163139394-de4e4f43e4e5?w=400&h=200&fit=crop',
+            date: new Date(Date.now() - 172800000).toISOString(),
+            tags: ['Climate', 'Environment', 'Policy'],
+            url: '#'
+          }
+        ];
+        localStorage.setItem('newsbot-favorites', JSON.stringify(bookmarks));
+      }
+      
+      updateStats();
+      renderBookmarks();
+    }
+    
+    function updateStats() {
+      document.getElementById('total-bookmarks').textContent = bookmarks.length;
+      
+      const thisWeek = bookmarks.filter(bookmark => {
+        const bookmarkDate = new Date(bookmark.date);
+        const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        return bookmarkDate > weekAgo;
+      }).length;
+      
+      document.getElementById('this-week').textContent = thisWeek;
+      
+      const categories = new Set(bookmarks.map(b => b.category));
+      document.getElementById('categories-count').textContent = categories.size;
+      
+      const avgPerWeek = Math.round(bookmarks.length / 4); // Assuming 4 weeks of data
+      document.getElementById('avg-per-week').textContent = avgPerWeek;
+    }
+    
+    function renderBookmarks(filteredBookmarks = bookmarks) {
+      const grid = document.getElementById('bookmarks-grid');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (filteredBookmarks.length === 0) {
+        grid.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      grid.style.display = 'grid';
+      
+      grid.innerHTML = filteredBookmarks.map(bookmark => `
+        <div class="bookmark-card">
+          <div class="bookmark-image" style="background-image: url('${bookmark.image}'); background-size: cover; background-position: center;">
+            ${!bookmark.image ? '<i class="fas fa-newspaper"></i>' : ''}
+          </div>
+          <div class="bookmark-content">
+            <div class="bookmark-meta">
+              <span class="bookmark-category">${bookmark.category}</span>
+              <span class="bookmark-date">${formatDate(bookmark.date)}</span>
+            </div>
+            <h3 class="bookmark-title">${bookmark.title}</h3>
+            <p class="bookmark-excerpt">${bookmark.excerpt}</p>
+            <div class="bookmark-actions">
+              <div class="bookmark-tags">
+                ${bookmark.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+              </div>
+              <div class="bookmark-controls">
+                <button class="control-btn" onclick="shareBookmark('${bookmark.id}')" title="Share">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="control-btn" onclick="removeBookmark('${bookmark.id}')" title="Remove">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) return 'Today';
+      if (diffDays === 2) return 'Yesterday';
+      if (diffDays <= 7) return `${diffDays - 1} days ago`;
+      return date.toLocaleDateString();
+    }
+    
+    function removeBookmark(id) {
+      if (confirm('Are you sure you want to remove this bookmark?')) {
+        bookmarks = bookmarks.filter(b => b.id !== id);
+        localStorage.setItem('newsbot-favorites', JSON.stringify(bookmarks));
+        updateStats();
+        applyFilters();
+      }
+    }
+    
+    function clearAllBookmarks() {
+      if (confirm('Are you sure you want to clear all bookmarks? This action cannot be undone.')) {
+        bookmarks = [];
+        localStorage.setItem('newsbot-favorites', JSON.stringify(bookmarks));
+        updateStats();
+        renderBookmarks();
+      }
+    }
+    
+    function exportBookmarks() {
+      const dataStr = JSON.stringify(bookmarks, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      
+      const exportFileDefaultName = `newsbot-bookmarks-${new Date().toISOString().split('T')[0]}.json`;
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+    
+    function shareBookmark(id) {
+      const bookmark = bookmarks.find(b => b.id === id);
+      if (bookmark && navigator.share) {
+        navigator.share({
+          title: bookmark.title,
+          text: bookmark.excerpt,
+          url: window.location.origin
+        });
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(`${bookmark.title}\n${bookmark.excerpt}`);
+        alert('Bookmark copied to clipboard!');
+      }
+    }
+    
+    function applyFilters() {
+      const categoryFilter = document.getElementById('category-filter').value;
+      const dateFilter = document.getElementById('date-filter').value;
+      const searchFilter = document.getElementById('search-filter').value.toLowerCase();
+      
+      let filtered = bookmarks;
+      
+      if (categoryFilter) {
+        filtered = filtered.filter(b => b.category === categoryFilter);
+      }
+      
+      if (dateFilter) {
+        const now = new Date();
+        let cutoffDate;
+        
+        switch (dateFilter) {
+          case 'today':
+            cutoffDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            break;
+          case 'week':
+            cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            break;
+          case 'month':
+            cutoffDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            break;
+        }
+        
+        if (cutoffDate) {
+          filtered = filtered.filter(b => new Date(b.date) >= cutoffDate);
+        }
+      }
+      
+      if (searchFilter) {
+        filtered = filtered.filter(b => 
+          b.title.toLowerCase().includes(searchFilter) ||
+          b.excerpt.toLowerCase().includes(searchFilter) ||
+          b.tags.some(tag => tag.toLowerCase().includes(searchFilter))
+        );
+      }
+      
+      renderBookmarks(filtered);
+    }
+    
+    // Event listeners
+    document.getElementById('category-filter').addEventListener('change', applyFilters);
+    document.getElementById('date-filter').addEventListener('change', applyFilters);
+    document.getElementById('search-filter').addEventListener('input', applyFilters);
+    
+    // Load bookmarks on page load
+    window.addEventListener('load', loadBookmarks);
+  </script>
+</body>
+</html>

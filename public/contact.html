@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - NewsBot</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .contact-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .contact-header h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    
+    .contact-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .contact-info {
+      background: linear-gradient(135deg, #4361ee, #6c5ce7);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #4361ee;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .btn-submit {
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .btn-submit:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+    }
+    
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      font-size: 1.2rem;
+    }
+    
+    .faq-section {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 3rem;
+    }
+    
+    .faq-item {
+      border-bottom: 1px solid #eee;
+      padding: 1.5rem 0;
+    }
+    
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      justify-content: between;
+      align-items: center;
+    }
+    
+    .faq-answer {
+      color: #666;
+      line-height: 1.6;
+      display: none;
+    }
+    
+    .faq-answer.active {
+      display: block;
+    }
+    
+    .back-link {
+      display: inline-block;
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <a href="/app" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to NewsBot
+    </a>
+    
+    <div class="contact-header">
+      <h1>Get in Touch</h1>
+      <p>Have questions, feedback, or need support? We'd love to hear from you!</p>
+    </div>
+    
+    <div class="contact-grid">
+      <div class="contact-form">
+        <h2>Send us a Message</h2>
+        <form id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name *</label>
+              <input type="text" id="first-name" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name *</label>
+              <input type="text" id="last-name" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <select id="subject" required>
+              <option value="">Choose a subject</option>
+              <option value="general">General Inquiry</option>
+              <option value="support">Technical Support</option>
+              <option value="feedback">Feedback</option>
+              <option value="feature">Feature Request</option>
+              <option value="bug">Bug Report</option>
+              <option value="partnership">Partnership</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+          </div>
+          
+          <button type="submit" class="btn-submit">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+      
+      <div class="contact-info">
+        <h2>Contact Information</h2>
+        <p style="margin-bottom: 2rem; opacity: 0.9;">
+          We're here to help! Reach out to us through any of these channels.
+        </p>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div>
+            <h4>Email</h4>
+            <p>support@newsbot.com</p>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div>
+            <h4>Phone</h4>
+            <p>+1 (555) 123-4567</p>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div>
+            <h4>Address</h4>
+            <p>123 Innovation Drive<br>San Francisco, CA 94107</p>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div>
+            <h4>Support Hours</h4>
+            <p>Mon-Fri: 9:00 AM - 6:00 PM PST<br>Weekend: 10:00 AM - 4:00 PM PST</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          How accurate is the news information provided by NewsBot?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          NewsBot sources information from verified, reputable news organizations and uses AI to fact-check and cross-reference stories. Our AI is trained to identify and filter out misinformation while prioritizing trusted sources.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Is NewsBot free to use?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Yes! NewsBot is completely free to use. We believe everyone should have access to reliable news information. We may introduce premium features in the future, but our core news service will always remain free.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          How does the AI chatbot work?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Our AI chatbot uses Google's Gemini technology to understand your questions about current events. It can summarize articles, explain complex topics, provide context, and answer questions about news stories from around the world.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Can I customize my news preferences?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Absolutely! You can customize your news preferences in your account settings. Choose your favorite categories, set notification preferences, and save articles for later reading.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          How often is the news updated?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          NewsBot updates continuously throughout the day. Breaking news appears within minutes, while other stories are refreshed every hour to ensure you always have the latest information.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // FAQ toggle functionality
+    function toggleFAQ(element) {
+      const answer = element.nextElementSibling;
+      const icon = element.querySelector('i');
+      
+      if (answer.classList.contains('active')) {
+        answer.classList.remove('active');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      } else {
+        // Close all other FAQs
+        document.querySelectorAll('.faq-answer.active').forEach(item => {
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.faq-question i').forEach(item => {
+          item.classList.remove('fa-chevron-up');
+          item.classList.add('fa-chevron-down');
+        });
+        
+        // Open clicked FAQ
+        answer.classList.add('active');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      }
+    }
+    
+    // Form submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Collect form data
+      const formData = {
+        firstName: document.getElementById('first-name').value,
+        lastName: document.getElementById('last-name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Save to localStorage (in real app, this would be sent to server)
+      const submissions = JSON.parse(localStorage.getItem('contact-submissions') || '[]');
+      submissions.push(formData);
+      localStorage.setItem('contact-submissions', JSON.stringify(submissions));
+      
+      // Show success message
+      alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+      
+      // Reset form
+      this.reset();
+    });
+  </script>
+</body>
+</html>

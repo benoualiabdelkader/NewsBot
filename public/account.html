@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Manager - NewsBot</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .account-container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+    
+    .account-header {
+      background: linear-gradient(135deg, var(--primary-color), #6c5ce7);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .account-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    
+    .account-tabs {
+      display: flex;
+      background: var(--secondary-color);
+      border-bottom: 1px solid #eee;
+    }
+    
+    .account-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: var(--light-text);
+      transition: all 0.3s ease;
+    }
+    
+    .account-tab.active {
+      background: white;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .account-content {
+      padding: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .preferences-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .preference-card {
+      background: var(--secondary-color);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+    
+    .preference-toggle {
+      margin-top: 0.5rem;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background: #ccc;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .toggle-switch.active {
+      background: var(--primary-color);
+    }
+    
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s ease;
+    }
+    
+    .toggle-switch.active::after {
+      transform: translateX(26px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: var(--secondary-color);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      display: block;
+    }
+    
+    .stat-label {
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .security-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #eee;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+    }
+    
+    .danger-zone {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .danger-zone h3 {
+      color: #e53e3e;
+      margin-bottom: 1rem;
+    }
+    
+    .btn-danger {
+      background: #e53e3e;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #c53030;
+    }
+    
+    @media (max-width: 768px) {
+      .account-container {
+        margin: 20px;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .account-tabs {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="header">
+    <div class="container">
+      <div class="nav">
+        <div class="logo">
+          <img src="assets/logo.svg" alt="NewsBot Logo">
+          <span class="logo-text">NewsBot</span>
+        </div>
+        <div class="nav-links">
+          <a href="index.html">Back to App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="account-container">
+    <div class="account-header">
+      <div class="account-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <h1 id="user-name">John Doe</h1>
+      <p id="user-email">john.doe@example.com</p>
+    </div>
+
+    <div class="account-tabs">
+      <button class="account-tab active" data-tab="profile">
+        <i class="fas fa-user"></i> Profile
+      </button>
+      <button class="account-tab" data-tab="preferences">
+        <i class="fas fa-cog"></i> Preferences
+      </button>
+      <button class="account-tab" data-tab="security">
+        <i class="fas fa-shield-alt"></i> Security
+      </button>
+      <button class="account-tab" data-tab="stats">
+        <i class="fas fa-chart-bar"></i> Statistics
+      </button>
+    </div>
+
+    <div class="account-content">
+      <!-- Profile Tab -->
+      <div id="profile-tab" class="tab-content active">
+        <h2>Profile Information</h2>
+        <form id="profile-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" value="John" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" value="Doe" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" value="john.doe@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" value="+1 (555) 123-4567">
+          </div>
+          
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country">
+              <option value="us">United States</option>
+              <option value="ca">Canada</option>
+              <option value="uk">United Kingdom</option>
+              <option value="au">Australia</option>
+              <option value="de">Germany</option>
+              <option value="fr">France</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea id="bio" rows="4" placeholder="Tell us about yourself...">News enthusiast and technology lover.</textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </form>
+      </div>
+
+      <!-- Preferences Tab -->
+      <div id="preferences-tab" class="tab-content">
+        <h2>News Preferences</h2>
+        
+        <div class="form-group">
+          <label>Favorite News Categories</label>
+          <div class="preferences-grid">
+            <div class="preference-card">
+              <i class="fas fa-globe"></i>
+              <h4>World News</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch active" data-category="world"></div>
+              </div>
+            </div>
+            <div class="preference-card">
+              <i class="fas fa-laptop"></i>
+              <h4>Technology</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch active" data-category="technology"></div>
+              </div>
+            </div>
+            <div class="preference-card">
+              <i class="fas fa-chart-line"></i>
+              <h4>Business</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch" data-category="business"></div>
+              </div>
+            </div>
+            <div class="preference-card">
+              <i class="fas fa-football-ball"></i>
+              <h4>Sports</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch active" data-category="sports"></div>
+              </div>
+            </div>
+            <div class="preference-card">
+              <i class="fas fa-film"></i>
+              <h4>Entertainment</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch" data-category="entertainment"></div>
+              </div>
+            </div>
+            <div class="preference-card">
+              <i class="fas fa-heartbeat"></i>
+              <h4>Health</h4>
+              <div class="preference-toggle">
+                <div class="toggle-switch active" data-category="health"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notification-frequency">Notification Frequency</label>
+          <select id="notification-frequency">
+            <option value="immediate">Immediate</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily" selected>Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="never">Never</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="language">Preferred Language</label>
+          <select id="language">
+            <option value="en" selected>English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh">Chinese</option>
+            <option value="ja">Japanese</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary">
+          <i class="fas fa-save"></i> Save Preferences
+        </button>
+      </div>
+
+      <!-- Security Tab -->
+      <div id="security-tab" class="tab-content">
+        <h2>Security Settings</h2>
+        
+        <div class="security-item">
+          <div>
+            <h4>Two-Factor Authentication</h4>
+            <p>Add an extra layer of security to your account</p>
+          </div>
+          <button class="btn btn-secondary">Enable</button>
+        </div>
+
+        <div class="security-item">
+          <div>
+            <h4>Login Notifications</h4>
+            <p>Get notified when someone logs into your account</p>
+          </div>
+          <div class="toggle-switch active"></div>
+        </div>
+
+        <div class="security-item">
+          <div>
+            <h4>Password</h4>
+            <p>Last changed 3 months ago</p>
+          </div>
+          <button class="btn btn-secondary">Change Password</button>
+        </div>
+
+        <div class="security-item">
+          <div>
+            <h4>Active Sessions</h4>
+            <p>Manage your active login sessions</p>
+          </div>
+          <button class="btn btn-secondary">View Sessions</button>
+        </div>
+
+        <div class="danger-zone">
+          <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+          <p>These actions cannot be undone. Please be careful.</p>
+          <button class="btn btn-danger">
+            <i class="fas fa-user-times"></i> Delete Account
+          </button>
+        </div>
+      </div>
+
+      <!-- Statistics Tab -->
+      <div id="stats-tab" class="tab-content">
+        <h2>Your NewsBot Statistics</h2>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="articles-read">142</span>
+            <span class="stat-label">Articles Read</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="favorites-count">23</span>
+            <span class="stat-label">Favorites Saved</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="search-queries">67</span>
+            <span class="stat-label">Searches Made</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="time-reading">15h</span>
+            <span class="stat-label">Time Reading</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="chatbot-conversations">34</span>
+            <span class="stat-label">Chat Conversations</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="days-active">89</span>
+            <span class="stat-label">Days Active</span>
+          </div>
+        </div>
+
+        <h3>Reading Activity</h3>
+        <canvas id="activity-chart" width="400" height="200" style="border: 1px solid #ddd; border-radius: 8px; background: white; width: 100%; max-width: 600px;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    document.querySelectorAll('.account-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        document.querySelectorAll('.account-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        const tabId = tab.getAttribute('data-tab') + '-tab';
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Toggle switches functionality
+    document.querySelectorAll('.toggle-switch').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('active');
+        
+        // Save preference if it has a category
+        const category = toggle.getAttribute('data-category');
+        if (category) {
+          const preferences = JSON.parse(localStorage.getItem('newsbot-preferences') || '{}');
+          preferences[category] = toggle.classList.contains('active');
+          localStorage.setItem('newsbot-preferences', JSON.stringify(preferences));
+        }
+      });
+    });
+
+    // Form submission
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Collect form data
+      const formData = {
+        firstName: document.getElementById('first-name').value,
+        lastName: document.getElementById('last-name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        country: document.getElementById('country').value,
+        bio: document.getElementById('bio').value
+      };
+      
+      // Save to localStorage (in a real app, this would be sent to a server)
+      localStorage.setItem('newsbot-profile', JSON.stringify(formData));
+      
+      // Update header
+      document.getElementById('user-name').textContent = `${formData.firstName} ${formData.lastName}`;
+      document.getElementById('user-email').textContent = formData.email;
+      
+      // Show success message
+      showToast('Profile updated successfully!');
+    });
+
+    // Simple chart drawing for activity
+    function drawActivityChart() {
+      const canvas = document.getElementById('activity-chart');
+      const ctx = canvas.getContext('2d');
+      
+      // Sample data for the last 7 days
+      const data = [5, 8, 12, 6, 15, 9, 11];
+      const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const margin = 40;
+      const chartWidth = canvasWidth - 2 * margin;
+      const chartHeight = canvasHeight - 2 * margin;
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      // Set styles
+      ctx.strokeStyle = '#4361ee';
+      ctx.fillStyle = '#4361ee';
+      ctx.lineWidth = 3;
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'center';
+      
+      // Draw bars
+      const barWidth = chartWidth / data.length - 10;
+      const maxValue = Math.max(...data);
+      
+      data.forEach((value, index) => {
+        const barHeight = (value / maxValue) * chartHeight * 0.8;
+        const x = margin + index * (chartWidth / data.length) + 5;
+        const y = canvasHeight - margin - barHeight;
+        
+        // Draw bar
+        ctx.fillRect(x, y, barWidth, barHeight);
+        
+        // Draw label
+        ctx.fillStyle = '#666';
+        ctx.fillText(labels[index], x + barWidth / 2, canvasHeight - 10);
+        
+        // Draw value
+        ctx.fillText(value, x + barWidth / 2, y - 5);
+        
+        ctx.fillStyle = '#4361ee';
+      });
+    }
+
+    // Load saved data on page load
+    window.addEventListener('load', () => {
+      // Load profile data
+      const savedProfile = JSON.parse(localStorage.getItem('newsbot-profile') || '{}');
+      if (savedProfile.firstName) {
+        document.getElementById('first-name').value = savedProfile.firstName;
+        document.getElementById('last-name').value = savedProfile.lastName;
+        document.getElementById('email').value = savedProfile.email;
+        document.getElementById('phone').value = savedProfile.phone || '';
+        document.getElementById('country').value = savedProfile.country || 'us';
+        document.getElementById('bio').value = savedProfile.bio || '';
+        
+        // Update header
+        document.getElementById('user-name').textContent = `${savedProfile.firstName} ${savedProfile.lastName}`;
+        document.getElementById('user-email').textContent = savedProfile.email;
+      }
+      
+      // Load preferences
+      const savedPreferences = JSON.parse(localStorage.getItem('newsbot-preferences') || '{}');
+      document.querySelectorAll('.toggle-switch[data-category]').forEach(toggle => {
+        const category = toggle.getAttribute('data-category');
+        if (savedPreferences[category] !== undefined) {
+          if (savedPreferences[category]) {
+            toggle.classList.add('active');
+          } else {
+            toggle.classList.remove('active');
+          }
+        }
+      });
+      
+      // Update statistics from localStorage
+      const favorites = JSON.parse(localStorage.getItem('newsbot-favorites') || '[]');
+      document.getElementById('favorites-count').textContent = favorites.length;
+      
+      // Draw activity chart
+      drawActivityChart();
+    });
+
+    // Toast notification function
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast-message show';
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #4361ee;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

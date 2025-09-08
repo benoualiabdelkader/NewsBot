@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewsBot - Your Intelligent News Companion</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <img src="assets/logo.svg" alt="NewsBot Logo">
+          <span class="logo-text">NewsBot</span>
+        </div>
+        <div class="nav-links">
+          <a href="#" class="active" id="nav-home">Home</a>
+          <a href="#" id="nav-categories">Categories</a>
+          <a href="#" id="nav-live">Live</a>
+          <a href="#" id="nav-chatbot">Chatbot</a>
+        </div>
+        <div class="nav-icons">
+          <button class="icon-btn" id="search-toggle">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="icon-btn" id="notification-btn">
+            <i class="fas fa-bell"></i>
+          </button>
+          <a href="dashboard.html" class="icon-btn" title="Dashboard">
+            <i class="fas fa-tachometer-alt"></i>
+          </a>
+          <a href="account.html" id="profile-link" title="Account Settings">
+            <img src="assets/profile.svg" alt="Profile" class="profile-img">
+          </a>
+          <button class="mobile-menu-btn" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main id="main-content">
+    <!-- Home Section (default view) -->
+    <section id="home-section" class="section active">
+      <div class="container">
+        <!-- Hero Section with Top Stories -->
+        <div class="hero">
+          <h2 class="section-title">Top Stories</h2>
+          <div class="card-grid" id="top-stories">
+            <!-- Cards will be populated by JavaScript -->
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Trending Section -->
+        <div class="trending">
+          <h2 class="section-title">Trending Now</h2>
+          <div id="trending-news">
+            <!-- Will be populated by JavaScript -->
+            <div class="skeleton" style="height: 130px; margin-bottom: 20px;"></div>
+            <div class="skeleton" style="height: 130px; margin-bottom: 20px;"></div>
+            <div class="skeleton" style="height: 130px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories-section" class="section categories-section">
+      <div class="container">
+        <h2 class="section-title">Categories</h2>
+        <div class="categories-grid">
+          <div class="category-card" data-category="world">
+            <div class="category-icon">
+              <img src="assets/world.svg" alt="World News">
+            </div>
+            <h3 class="category-title">World</h3>
+          </div>
+          <div class="category-card" data-category="technology">
+            <div class="category-icon">
+              <img src="assets/tech.svg" alt="Technology">
+            </div>
+            <h3 class="category-title">Technology</h3>
+          </div>
+          <div class="category-card" data-category="sports">
+            <div class="category-icon">
+              <img src="assets/sports.svg" alt="Sports">
+            </div>
+            <h3 class="category-title">Sports</h3>
+          </div>
+          <div class="category-card" data-category="entertainment">
+            <div class="category-icon">
+              <img src="assets/entertainment.svg" alt="Entertainment">
+            </div>
+            <h3 class="category-title">Entertainment</h3>
+          </div>
+          <div class="category-card" data-category="business">
+            <div class="category-icon">
+              <img src="assets/business.svg" alt="Business">
+            </div>
+            <h3 class="category-title">Business</h3>
+          </div>
+          <div class="category-card" data-category="health">
+            <div class="category-icon">
+              <img src="assets/health.svg" alt="Health">
+            </div>
+            <h3 class="category-title">Health</h3>
+          </div>
+          <div class="category-card" data-category="science">
+            <div class="category-icon">
+              <img src="assets/science.svg" alt="Science">
+            </div>
+            <h3 class="category-title">Science</h3>
+          </div>
+          <div class="category-card" data-category="politics">
+            <div class="category-icon">
+              <img src="assets/politics.svg" alt="Politics">
+            </div>
+            <h3 class="category-title">Politics</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Section -->
+    <section id="live-section" class="section live-section">
+      <div class="container">
+        <h2 class="section-title">Live News</h2>
+        <div class="live-grid" id="live-streams">
+          <!-- Will be populated by JavaScript -->
+          <div class="skeleton" style="width: 350px; height: 300px; flex-shrink: 0;"></div>
+          <div class="skeleton" style="width: 350px; height: 300px; flex-shrink: 0;"></div>
+          <div class="skeleton" style="width: 350px; height: 300px; flex-shrink: 0;"></div>
+        </div>
+        <div class="live-nav">
+          <button class="live-nav-btn" id="prev-live">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="live-nav-btn" id="next-live">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search-section" class="section search-section">
+      <div class="container">
+        <div class="search-container">
+          <form class="search-form" id="search-form">
+            <input 
+              type="text" 
+              class="search-input" 
+              id="search-input" 
+              placeholder="Search for news, topics, sources..."
+            >
+            <button type="submit" class="search-btn">Search</button>
+          </form>
+        </div>
+        <div id="search-results" class="card-grid">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile-section" class="section profile-section">
+      <div class="container">
+        <div class="profile-header">
+          <img src="assets/profile.jpg" alt="Profile" class="profile-avatar">
+          <div>
+            <h2 class="profile-name">Sophia Bennett</h2>
+            <span class="profile-label">Premium User</span>
+          </div>
+        </div>
+        <div class="profile-tabs">
+          <ul>
+            <li class="active" data-tab="account">Account</li>
+            <li data-tab="settings">Settings</li>
+          </ul>
+        </div>
+        <div id="account-tab" class="tab-content active">
+          <div class="settings-card">
+            <div class="settings-row">
+              <span class="settings-title">Personal Information</span>
+              <span class="arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-title">Preferences</span>
+              <span class="arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-title">Notifications</span>
+              <span class="arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="settings-tab" class="tab-content">
+          <div class="settings-card">
+            <div class="settings-row">
+              <span class="settings-title">Language</span>
+              <span class="settings-value">English</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-title">Theme</span>
+              <span class="settings-value">Light</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-title">About</span>
+              <span class="arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-title">Help & Feedback</span>
+              <span class="arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </div>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chatbot -->
+  <button class="chatbot-toggle" id="chatbot-toggle">
+    <i class="fas fa-comment"></i>
+  </button>
+  <div class="chatbot-window" id="chatbot-window">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="fas fa-robot"></i> NewsBot Assistant
+      </div>
+      <button class="close-chat" id="close-chat">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="bot-message">
+        Hi there! I'm your NewsBot assistant. Ask me about any news topic, and I'll provide you with the latest information.
+      </div>
+    </div>
+    <div class="chatbot-input">
+      <textarea 
+        class="message-input" 
+        id="message-input" 
+        placeholder="Ask me about news..." 
+        rows="1"
+      ></textarea>
+      <button class="send-message" id="send-message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <div class="footer-logo">
+            <img src="assets/logo-white.svg" alt="NewsBot Logo">
+            <span class="logo-text">NewsBot</span>
+          </div>
+          <p class="footer-text">
+            Your intelligent news companion bringing you the latest updates from around the world.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#" onclick="navigateTo('home-section')">Home</a></li>
+            <li><a href="#" onclick="navigateTo('categories-section')">Categories</a></li>
+            <li><a href="#" onclick="navigateTo('live-section')">Live News</a></li>
+            <li><a href="#" onclick="navigateTo('search-section')">Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Company</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="help.html">Help Center</a></li>
+            <li><a href="/status">System Status</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Legal</h3>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="account.html">Account Settings</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        &copy; 2025 NewsBot. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="script-additions.js"></script>
+  <script>
+    // Initialize additional features
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add additional styles
+      addAdditionalStyles();
+      
+      // Load favorites when profile tab is clicked
+      const profileTabs = document.querySelectorAll('.profile-tabs li');
+      if (profileTabs.length > 0) {
+        profileTabs.forEach(tab => {
+          tab.addEventListener('click', (e) => {
+            if (e.target.dataset.tab === 'favorites') {
+              loadFavorites();
+            }
+          });
+        });
+      }
+      
+      // Initialize video modal functionality for live streams
+      const liveStreamsContainer = document.getElementById('live-streams');
+      if (liveStreamsContainer) {
+        liveStreamsContainer.addEventListener('click', (e) => {
+          const watchBtn = e.target.closest('.watch-live');
+          if (watchBtn) {
+            const videoId = watchBtn.dataset.videoid;
+            if (videoId) {
+              createVideoModal(videoId);
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

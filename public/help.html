@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Center - NewsBot</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .help-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .help-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .help-header h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    .search-box {
+      max-width: 600px;
+      margin: 2rem auto;
+      position: relative;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 15px 50px 15px 20px;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: #4361ee;
+    }
+    
+    .search-box i {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+    
+    .help-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .category-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .category-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #4361ee, #6c5ce7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .faq-section {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 3rem;
+    }
+    
+    .faq-category {
+      margin-bottom: 3rem;
+    }
+    
+    .faq-category h3 {
+      color: #4361ee;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .faq-item {
+      border-bottom: 1px solid #eee;
+      padding: 1.5rem 0;
+    }
+    
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .faq-answer {
+      color: #666;
+      line-height: 1.6;
+      display: none;
+      padding-left: 1rem;
+      border-left: 3px solid #4361ee;
+    }
+    
+    .faq-answer.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .back-link {
+      display: inline-block;
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    .contact-help {
+      background: linear-gradient(135deg, #4361ee, #6c5ce7);
+      color: white;
+      padding: 3rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .contact-help h3 {
+      margin-bottom: 1rem;
+    }
+    
+    .contact-help p {
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .contact-help .btn {
+      background: white;
+      color: #4361ee;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-help .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="help-container">
+    <a href="/app" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to NewsBot
+    </a>
+    
+    <div class="help-header">
+      <h1>Help Center</h1>
+      <p>Find answers to common questions and get help using NewsBot</p>
+      
+      <div class="search-box">
+        <input type="text" id="help-search" placeholder="Search for help topics...">
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+    
+    <div class="help-categories">
+      <div class="category-card" onclick="showCategory('getting-started')">
+        <div class="category-icon">
+          <i class="fas fa-play-circle"></i>
+        </div>
+        <h3>Getting Started</h3>
+        <p>Learn the basics of using NewsBot</p>
+      </div>
+      
+      <div class="category-card" onclick="showCategory('account')">
+        <div class="category-icon">
+          <i class="fas fa-user-cog"></i>
+        </div>
+        <h3>Account & Settings</h3>
+        <p>Manage your account and preferences</p>
+      </div>
+      
+      <div class="category-card" onclick="showCategory('features')">
+        <div class="category-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <h3>Features</h3>
+        <p>Discover all NewsBot features</p>
+      </div>
+      
+      <div class="category-card" onclick="showCategory('troubleshooting')">
+        <div class="category-icon">
+          <i class="fas fa-tools"></i>
+        </div>
+        <h3>Troubleshooting</h3>
+        <p>Fix common issues and problems</p>
+      </div>
+      
+      <div class="category-card" onclick="showCategory('privacy')">
+        <div class="category-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Privacy & Security</h3>
+        <p>Learn about data protection</p>
+      </div>
+      
+      <div class="category-card" onclick="showCategory('ai')">
+        <div class="category-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3>AI Assistant</h3>
+        <p>Get help with the chatbot</p>
+      </div>
+    </div>
+    
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-category" id="getting-started">
+        <h3>Getting Started</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I create an account?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Creating an account is easy! Click the profile icon in the top right corner, then select "Sign Up". Enter your email, create a password, and verify your email address. You can also sign up using your Google or social media accounts.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I navigate through different news sections?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Use the navigation menu at the top of the page to access different sections: Home (top stories), Categories (news by topic), Live (live streams), and Search. You can also use the search icon to find specific topics.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            Is NewsBot free to use?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes! NewsBot is completely free to use. All features including news reading, AI chatbot, search, and personalization are available at no cost.
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-category" id="account">
+        <h3>Account & Settings</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I change my notification preferences?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Go to your Account page by clicking your profile picture, then select the "Preferences" tab. Here you can customize which categories you want notifications for and how frequently you receive them.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I save articles to favorites?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            When reading an article, look for the heart icon or "Add to Favorites" button. Click it to save the article. You can view all your saved articles in the Favorites section of your account.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            Can I delete my account?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, you can delete your account at any time. Go to Account Settings > Security tab, and you'll find the option to delete your account. This action cannot be undone and will remove all your data.
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-category" id="features">
+        <h3>Features</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How does the search feature work?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Our search feature combines news articles, images, and videos related to your query. Simply type your search term in the search box and press Enter. You can search for topics, people, events, or specific news sources.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            What are the different news categories available?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            NewsBot covers multiple categories including World News, Technology, Sports, Business, Health, Entertainment, Science, and Politics. You can browse these categories from the main navigation or customize your preferences.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do live news streams work?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            The Live section shows current news broadcasts from major networks. Click "Watch Now" on any stream to open it in a video player. These are real-time broadcasts covering breaking news and current events.
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-category" id="ai">
+        <h3>AI Assistant</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I use the AI chatbot?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Click the chat icon in the bottom right corner to open the AI assistant. You can ask questions about current events, request article summaries, or get explanations about complex topics. Just type your question and press Enter.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            What kind of questions can I ask the AI?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            You can ask about current events, request news summaries, ask for explanations of complex topics, get historical context, or ask for analysis of trends. The AI is designed to help you understand and discuss news topics.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            Is the AI information always accurate?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            While our AI is trained on reliable sources, always verify important information from authoritative news sources. The AI is designed to be helpful but may occasionally have limitations or provide incomplete information.
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-category" id="troubleshooting">
+        <h3>Troubleshooting</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            The page is loading slowly. What should I do?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Try refreshing the page or checking your internet connection. If the problem persists, try clearing your browser cache or using a different browser. You can also try disabling browser extensions temporarily.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            Images are not loading properly. How can I fix this?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            This is usually due to slow internet connection or ad blockers. Try disabling ad blockers, refreshing the page, or checking your internet connection. Most images have fallback placeholders if the original fails to load.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            The AI chatbot is not responding. What's wrong?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            This could be due to server issues or high traffic. Try refreshing the page and attempting your query again. If the problem persists, the AI service might be temporarily unavailable for maintenance.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-help">
+      <h3>Still Need Help?</h3>
+      <p>Can't find what you're looking for? Our support team is here to help you.</p>
+      <a href="contact.html" class="btn">Contact Support</a>
+    </div>
+  </div>
+  
+  <script>
+    function toggleFAQ(element) {
+      const answer = element.nextElementSibling;
+      const icon = element.querySelector('i');
+      
+      if (answer.classList.contains('active')) {
+        answer.classList.remove('active');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      } else {
+        // Close all other FAQs
+        document.querySelectorAll('.faq-answer.active').forEach(item => {
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.faq-question i').forEach(item => {
+          item.classList.remove('fa-chevron-up');
+          item.classList.add('fa-chevron-down');
+        });
+        
+        // Open clicked FAQ
+        answer.classList.add('active');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      }
+    }
+    
+    function showCategory(categoryId) {
+      // Hide all categories
+      document.querySelectorAll('.faq-category').forEach(cat => {
+        cat.style.display = 'none';
+      });
+      
+      // Show selected category
+      document.getElementById(categoryId).style.display = 'block';
+      
+      // Scroll to FAQ section
+      document.querySelector('.faq-section').scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }
+    
+    // Search functionality
+    document.getElementById('help-search').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const faqItems = document.querySelectorAll('.faq-item');
+      
+      if (searchTerm === '') {
+        // Show all categories
+        document.querySelectorAll('.faq-category').forEach(cat => {
+          cat.style.display = 'block';
+        });
+        faqItems.forEach(item => {
+          item.style.display = 'block';
+        });
+        return;
+      }
+      
+      // Show all categories when searching
+      document.querySelectorAll('.faq-category').forEach(cat => {
+        cat.style.display = 'block';
+      });
+      
+      // Filter FAQ items
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+        
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+    
+    // Show all categories by default
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.faq-category').forEach(cat => {
+        cat.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>

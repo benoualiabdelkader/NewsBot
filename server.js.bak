@@ -1,0 +1,160 @@
+const express = require("express");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const app = express();
+const port = 3000;
+
+// API Key 
+const apiKey = "AIzaSyAW2re8vy75wTnOKq1Zb_rrz0NVvoJX9Yk";
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// Model configuration
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+});
+
+// Text generation settings
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 1000,
+  responseMimeType: "text/plain",
+};
+
+//System prompt
+const systemInstruction = `
+"You are a highly advanced virtual mental health assistant, embodying the role of a licensed, experienced psychologist and compassionate therapist. Your purpose is to provide professional, ethical, and empathetic psychological support for users seeking emotional guidance, coping strategies, or mental well-being assistance. Your behavior must always reflect clinical professionalism, empathy, and a human-like supportive presence. 
+ Core Principles: 
+ Empathy & Active Listening  – Always listen carefully, validate feelings, and respond with understanding. Reflect user emotions accurately to create a safe and trusting environment. 
+ Safety & Ethics  – Never give medical prescriptions or formal diagnoses unless explicitly instructed by a qualified professional. If a user expresses suicidal thoughts, severe self-harm risk, or crisis situations, immediately provide resources to certified emergency services (e.g., suicide prevention hotlines) and advise seeking professional help. 
+ Supportive Guidance  – Offer coping strategies, mindfulness exercises, stress management techniques, CBT-informed suggestions, emotional regulation advice, and other evidence-based psychological tools. 
+ Non-Judgment & Confidentiality  – Never make assumptions or judgments. Maintain a confidential, respectful, and neutral tone at all times. 
+ Adaptability & Accessibility  – Adjust language for users of all ages, cultural backgrounds, and literacy levels. Use calm, gentle, and approachable phrasing. 
+ Session Flow & Engagement  – Ask clarifying and reflective questions gently. Encourage self-awareness, positive thinking, and emotional growth. Guide users through structured reflection when appropriate. 
+ Behavioral Guidelines: 
+ Maintain a calm, patient, and reassuring tone in every interaction. 
+ Reflect back emotions accurately to validate the user’s experience. 
+ Provide concrete, actionable, and realistic advice whenever possible. 
+ Encourage gradual progress, self-compassion, and mental resilience. 
+ Avoid medical jargon; explain psychological concepts simply. 
+ For repeated or persistent concerns, offer alternative coping strategies or recommend professional consultation. 
+ Use subtle motivational prompts to foster hope, confidence, and self-efficacy. 
+ Emergency Protocols: 
+ If the user indicates suicidal thoughts, self-harm, or crisis: respond immediately with empathy, reinforce the value of life, and provide contact information for certified help lines. 
+ Do not leave any expression of crisis unacknowledged. 
+ Ultimate Goal: 
+ To act as a trusted, ethical, and compassionate virtual therapist, delivering professional guidance, emotional support, and practical coping strategies while maintaining a safe, approachable, and human-like conversational style."
+`;
+
+
+// Keywords to organize the response
+const keywords = [
+  "تاريخ الدفع",
+  "وصل الدفع",
+  "فواتير سابقة",
+  "هل الانقطاع عام",
+  "وش لازم تدير الآن؟",
+  "إذا كان عندك وصل الدفع",
+  "إذا ماعندكش وصل",
+  "اتصل برقم الطوارئ",
+  "بخصوص تبديل العداد",
+  "وين تروح؟",
+  "الوكالات المتوفرة",
+  "الكونتور ما يخدمش مليح",
+  "تسرب الغاز",
+  "رقم الدعم تاع سونلغاز",
+];
+
+// Response formatting function (markdown + subheadings + separators)
+function formatResponse(text) {
+  const lines = text.split("\n");
+  let formattedLines = [];
+
+  for (let line of lines) {
+    const trimmedLine = line.trim();
+
+// If the line starts with a keyword, it is considered a subheading
+    const isKeyword = keywords.some((kw) => trimmedLine.startsWith(kw));
+
+    if (isKeyword) {
+// Clear separator before the heading (to make the response divided and clear)
+      if (formattedLines.length > 0) formattedLines.push("\n---\n");
+      formattedLines.push(`### 🔹 **${trimmedLine}**`);
+    } else if (trimmedLine !== "") {
+// Plain text with simple punctuation
+      formattedLines.push(`- ${trimmedLine}`);
+    } else {
+// Empty line (paragraph separator)
+      formattedLines.push("");
+    }
+  }
+
+  return formattedLines.join("\n");
+}
+
+// Express setup with maximum size limit
+app.use(express.json({ limit: "1mb" }));
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+// Endpoint /chat to handle requests
+app.post("/chat", async (req, res) => {
+  try {
+    const userMessage = req.body.message;
+
+    if (!userMessage || typeof userMessage !== "string" || userMessage.trim() === "") {
+      return res.status(400).json({ error: "الرسالة مطلوبة ويجب أن تكون نصاً صحيحاً." });
+    }
+
+// Set a maximum message length to prevent attacks or overly large requests
+    if (userMessage.length > 1000) {
+      return res.status(400).json({ error: "الرسالة طويلة جداً، يرجى تقليل الحجم." });
+    }
+
+// Start the chat session with the system prompt and previous history
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [
+        { role: "user", parts: [{ text: systemInstruction }] },
+        { role: "model", parts: [{ text: "أنا نوح، قوللي واش حبيت تعرف؟" }] },
+      ],
+    });
+
+// Send the user message and wait for the response
+    const result = await chatSession.sendMessage(userMessage);
+
+// Extract the text from the response
+    let responseText = "";
+    try {
+      responseText = typeof result.response === "string"
+        ? result.response
+        : await result.response.text();
+    } catch (err) {
+      console.error("فشل استخراج النص من الرد:", err);
+      responseText = "";
+    }
+
+// Ensure the presence of valid text
+    if (!responseText || responseText.trim() === "") {
+      return res.json({ response: "ماقدرتش نجاوبك، حاول ثاني من بعد." });
+    }
+
+// Format the response
+    const formattedText = formatResponse(responseText);
+
+// Send the formatted response to the client
+    res.json({ response: formattedText });
+  } catch (error) {
+    console.error("خطأ في جلسة المحادثة:", error);
+    res.status(500).json({ response: "وقع مشكل تقني. جرب من بعد." });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`✅ الخادم يعمل على http://localhost:${port}`);
+});

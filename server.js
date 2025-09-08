@@ -1,0 +1,232 @@
+const express = require("express");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const path = require("path");
+
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(express.json());
+app.use(express.static('public')); // Serve static files from public directory
+
+// Serve showcase.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'showcase.html'));
+});
+
+// Serve main app
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Add status page route
+app.get('/status', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'status.html'));
+});
+
+// Add new page routes
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'about.html'));
+});
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'contact.html'));
+});
+
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
+app.get('/help', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'help.html'));
+});
+
+app.get('/account', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'account.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/bookmarks', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'bookmarks.html'));
+});
+
+// API Key 
+const apiKey = "AIzaSyAPlZAyhfo-zQZ3CwqWVY5qNDeUNNmykK8";
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// Model configuration
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+});
+
+// Text generation settings
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 1000,
+  responseMimeType: "text/plain",
+};
+
+// System prompt for News Assistant
+const systemInstruction = `
+"You are NewsBot, an advanced AI news assistant designed to provide timely, accurate, and comprehensive information about current events and news topics globally. Your primary purpose is to help users stay informed about world events, answer questions about news stories, summarize articles, and provide insights on various news categories.
+
+Core Functions:
+1. News Information: Provide detailed, factual information about current events, breaking news, and ongoing stories across all categories (World, Technology, Sports, Entertainment, Business, Health, Science, Politics).
+
+2. News Summarization: Create concise, accurate summaries of news stories when requested, highlighting the key facts, figures, and implications.
+
+3. Trend Analysis: Identify and explain trending topics, viral stories, and significant developments in the news landscape.
+
+4. Fact-Checking: Help users verify information by distinguishing between reliable reporting and unverified claims or misinformation.
+
+5. Historical Context: Provide background information and historical context to help users understand the significance of current events.
+
+Behavioral Guidelines:
+- Maintain a professional, journalistic tone while remaining conversational and accessible.
+- Present multiple perspectives on complex or controversial topics.
+- Clearly distinguish between facts, analysis, and opinion when discussing news.
+- Prioritize information from reliable, mainstream news sources.
+- Avoid political bias and maintain neutrality in your reporting and analysis.
+- Use clear, concise language without unnecessary jargon.
+- Structure responses in a logical, organized manner with proper formatting.
+- When uncertain about details, acknowledge limitations rather than providing potentially incorrect information.
+- For breaking news, emphasize that information may be developing and subject to change.
+
+Response Format:
+- For simple queries: Provide direct, concise answers with key facts.
+- For complex topics: Structure your response with clear headings, bullet points, and paragraphs for readability.
+- For news summaries: Include the core who, what, when, where, why, and how elements.
+- For analytical questions: Present different perspectives, potential implications, and contextual background.
+
+Remember that your ultimate goal is to be a trustworthy, balanced source of news information that helps users navigate and understand current events in an increasingly complex media landscape."
+`;
+
+
+// Keywords to organize the response
+const keywords = [
+  "Breaking News",
+  "Top Stories",
+  "Technology Updates",
+  "Sports Headlines",
+  "Entertainment News",
+  "Business Updates",
+  "Health Information",
+  "Science Discoveries",
+  "Political Developments",
+  "World Events",
+  "Summary",
+  "Analysis",
+  "Fact Check",
+  "Historical Context"
+];
+
+// Response formatting function (markdown + subheadings + separators)
+function formatResponse(text) {
+  const lines = text.split("\n");
+  let formattedLines = [];
+
+  for (let line of lines) {
+    const trimmedLine = line.trim();
+
+    // If the line starts with a keyword, it is considered a subheading
+    const isKeyword = keywords.some((kw) => trimmedLine.startsWith(kw));
+
+    if (isKeyword) {
+      // Clear separator before the heading (to make the response divided and clear)
+      if (formattedLines.length > 0) formattedLines.push("\n---\n");
+      formattedLines.push(`### 🔹 **${trimmedLine}**`);
+    } else if (trimmedLine !== "") {
+      // Plain text with simple punctuation
+      formattedLines.push(`- ${trimmedLine}`);
+    } else {
+      // Empty line (paragraph separator)
+      formattedLines.push("");
+    }
+  }
+
+  return formattedLines.join("\n");
+}
+
+// Express setup with maximum size limit
+app.use(express.json({ limit: "1mb" }));
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+// Endpoint /chat to handle requests
+// Middleware to process JSON body data
+app.use(express.json());
+
+// Chat endpoint
+app.post("/chat", async (req, res) => {
+  try {
+    const userMessage = req.body.message;
+
+    if (!userMessage || typeof userMessage !== "string" || userMessage.trim() === "") {
+      return res.status(400).json({ error: "Message is required and must be valid text." });
+    }
+
+    // Set a maximum message length to prevent attacks or overly large requests
+    if (userMessage.length > 1000) {
+      return res.status(400).json({ error: "Message is too long. Please reduce its size." });
+    }
+
+    // Start the chat session with the system prompt and previous history
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [
+        { role: "user", parts: [{ text: systemInstruction }] },
+        { role: "model", parts: [{ text: "I'm NewsBot, your AI news assistant. How can I help you with news today?" }] },
+      ],
+    });
+
+    // Send the user message and wait for the response
+    const result = await chatSession.sendMessage(userMessage);
+
+    // Extract the text from the response
+    let responseText = "";
+    try {
+      responseText = typeof result.response === "string"
+        ? result.response
+        : await result.response.text();
+    } catch (err) {
+      console.error("Failed to extract text from response:", err);
+      responseText = "";
+    }
+
+    // Ensure the presence of valid text
+    if (!responseText || responseText.trim() === "") {
+      return res.json({ response: "I couldn't generate a response. Please try again later." });
+    }
+
+    // Format the response
+    const formattedText = formatResponse(responseText);
+
+    // Send the formatted response to the client
+    res.json({ response: formattedText });
+  } catch (error) {
+    console.error("Error in chat session:", error);
+    res.status(500).json({ response: "A technical problem occurred. Please try again later." });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`✅ Server running at http://localhost:${port}`);
+});
+
+// 404 handler - should be the last route
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
+});

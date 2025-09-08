@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About NewsBot - Your Intelligent News Companion</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .hero-section {
+      text-align: center;
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 4rem;
+    }
+    
+    .hero-section h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-section p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #4361ee, #6c5ce7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .team-section {
+      background: #f8f9fa;
+      padding: 4rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 4rem;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .team-member {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #4361ee;
+      display: block;
+    }
+    
+    .back-link {
+      display: inline-block;
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="about-container">
+    <a href="/app" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to NewsBot
+    </a>
+    
+    <div class="hero-section">
+      <h1>About NewsBot</h1>
+      <p>Your intelligent companion for staying informed about the world</p>
+    </div>
+    
+    <section class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3>AI-Powered Intelligence</h3>
+        <p>Our advanced AI chatbot understands context, summarizes articles, and provides intelligent insights about current events using Google's Gemini technology.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h3>Global Coverage</h3>
+        <p>Stay informed about news from around the world with our comprehensive coverage spanning politics, technology, sports, health, and entertainment.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3>Responsive Design</h3>
+        <p>Access your news anywhere, anytime. Our responsive design ensures a perfect experience across all devices - desktop, tablet, and mobile.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>Smart Search</h3>
+        <p>Find exactly what you're looking for with our intelligent search that combines articles, images, and videos from trusted sources.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-video"></i>
+        </div>
+        <h3>Live Streams</h3>
+        <p>Watch breaking news as it happens with live streams from major news networks around the globe.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <h3>Personalization</h3>
+        <p>Save your favorite articles, customize your news preferences, and get personalized recommendations based on your interests.</p>
+      </div>
+    </section>
+    
+    <section class="stats-section">
+      <div class="stat-card">
+        <span class="stat-number">1M+</span>
+        <span class="stat-label">Articles Processed Daily</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">150+</span>
+        <span class="stat-label">News Sources</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Countries Covered</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">99.9%</span>
+        <span class="stat-label">Uptime</span>
+      </div>
+    </section>
+    
+    <section class="team-section">
+      <h2 style="text-align: center; margin-bottom: 1rem;">Meet Our Team</h2>
+      <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+        Passionate developers and journalists working to revolutionize how you consume news
+      </p>
+      
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-avatar">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h3>Alex Johnson</h3>
+          <p><strong>CEO & Founder</strong></p>
+          <p>Former journalist with 15 years of experience in digital media and technology innovation.</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-avatar">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Sarah Chen</h3>
+          <p><strong>Lead Developer</strong></p>
+          <p>Full-stack engineer specializing in AI integration and scalable web applications.</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-avatar">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Michael Rodriguez</h3>
+          <p><strong>AI Research Lead</strong></p>
+          <p>PhD in Machine Learning, focused on natural language processing and news analysis.</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-avatar">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <h3>Emma Wilson</h3>
+          <p><strong>UX/UI Designer</strong></p>
+          <p>Award-winning designer passionate about creating intuitive and accessible user experiences.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section style="background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <h2>Our Mission</h2>
+      <p style="font-size: 1.1rem; line-height: 1.8; color: #666;">
+        At NewsBot, we believe that staying informed shouldn't be overwhelming. Our mission is to democratize access to reliable, 
+        accurate news while making it easier than ever to understand complex global events. We combine cutting-edge AI technology 
+        with traditional journalism values to create a news experience that's both intelligent and trustworthy.
+      </p>
+      
+      <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Our Values</h3>
+      <ul style="font-size: 1.1rem; line-height: 1.8; color: #666;">
+        <li><strong>Accuracy:</strong> We prioritize factual reporting and source verification</li>
+        <li><strong>Transparency:</strong> Our AI processes are explainable and our sources are clearly attributed</li>
+        <li><strong>Accessibility:</strong> News should be available to everyone, regardless of technical expertise</li>
+        <li><strong>Innovation:</strong> We continuously improve our technology to better serve our users</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

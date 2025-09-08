@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - NewsBot</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    .dashboard-header {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .welcome-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .user-greeting h1 {
+      margin: 0;
+      color: #333;
+    }
+    
+    .user-greeting p {
+      margin: 0.5rem 0 0 0;
+      color: #666;
+    }
+    
+    .quick-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .action-btn {
+      background: #4361ee;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .action-btn:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #4361ee, #6c5ce7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4361ee;
+      display: block;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .widget {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .widget h3 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 1rem;
+    }
+    
+    .recent-articles {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .recent-articles li {
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .recent-articles li:last-child {
+      border-bottom: none;
+    }
+    
+    .article-thumb {
+      width: 80px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    .article-info h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+    
+    .article-meta {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .trending-topics {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .trending-topics li {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .trend-rank {
+      background: #4361ee;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .activity-feed {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .activity-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      background: #4361ee;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-time {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .weather-widget {
+      text-align: center;
+    }
+    
+    .weather-icon {
+      font-size: 3rem;
+      color: #4361ee;
+      margin-bottom: 1rem;
+    }
+    
+    .temperature {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .back-link {
+      display: inline-block;
+      background: #4361ee;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: #2c4be0;
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .welcome-section {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      .quick-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <a href="/app" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to NewsBot
+    </a>
+    
+    <div class="dashboard-header">
+      <div class="welcome-section">
+        <div class="user-greeting">
+          <h1>Welcome back, <span id="user-name">John</span>!</h1>
+          <p>Here's your personalized news dashboard for today</p>
+        </div>
+        <div class="quick-actions">
+          <a href="/app" class="action-btn">
+            <i class="fas fa-newspaper"></i> Read News
+          </a>
+          <a href="account.html" class="action-btn">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <span class="stat-number" id="articles-read-today">12</span>
+        <span class="stat-label">Articles Read Today</span>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <span class="stat-number" id="total-favorites">23</span>
+        <span class="stat-label">Total Favorites</span>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <span class="stat-number" id="searches-today">8</span>
+        <span class="stat-label">Searches Today</span>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <span class="stat-number" id="reading-time">45m</span>
+        <span class="stat-label">Reading Time</span>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <span class="stat-number" id="ai-conversations">5</span>
+        <span class="stat-label">AI Conversations</span>
+      </div>
+    </div>
+    
+    <div class="dashboard-grid">
+      <div class="main-content">
+        <div class="widget">
+          <h3><i class="fas fa-star"></i> Recommended for You</h3>
+          <ul class="recent-articles">
+            <li>
+              <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=80&h=60&fit=crop" alt="Tech News" class="article-thumb">
+              <div class="article-info">
+                <h4>Revolutionary AI Breakthrough Changes Everything</h4>
+                <div class="article-meta">Technology • 2 hours ago • 5 min read</div>
+              </div>
+            </li>
+            <li>
+              <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=80&h=60&fit=crop" alt="Business News" class="article-thumb">
+              <div class="article-info">
+                <h4>Global Markets Show Strong Recovery Signs</h4>
+                <div class="article-meta">Business • 4 hours ago • 3 min read</div>
+              </div>
+            </li>
+            <li>
+              <img src="https://images.unsplash.com/photo-1569163139394-de4e4f43e4e5?w=80&h=60&fit=crop" alt="Climate News" class="article-thumb">
+              <div class="article-info">
+                <h4>Climate Summit Reaches Historic Agreement</h4>
+                <div class="article-meta">World • 6 hours ago • 4 min read</div>
+              </div>
+            </li>
+            <li>
+              <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=80&h=60&fit=crop" alt="Health News" class="article-thumb">
+              <div class="article-info">
+                <h4>New Medical Treatment Shows Promise</h4>
+                <div class="article-meta">Health • 8 hours ago • 6 min read</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="widget">
+          <h3><i class="fas fa-chart-line"></i> Your Reading Activity</h3>
+          <canvas id="reading-chart" width="600" height="300" style="width: 100%; max-width: 600px;"></canvas>
+        </div>
+      </div>
+      
+      <div class="sidebar">
+        <div class="widget">
+          <h3><i class="fas fa-fire"></i> Trending Topics</h3>
+          <ul class="trending-topics">
+            <li>
+              <span>Artificial Intelligence</span>
+              <span class="trend-rank">1</span>
+            </li>
+            <li>
+              <span>Climate Change</span>
+              <span class="trend-rank">2</span>
+            </li>
+            <li>
+              <span>Space Exploration</span>
+              <span class="trend-rank">3</span>
+            </li>
+            <li>
+              <span>Economic Recovery</span>
+              <span class="trend-rank">4</span>
+            </li>
+            <li>
+              <span>Healthcare Innovation</span>
+              <span class="trend-rank">5</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="widget weather-widget">
+          <h3><i class="fas fa-cloud-sun"></i> Weather</h3>
+          <div class="weather-icon">
+            <i class="fas fa-sun"></i>
+          </div>
+          <div class="temperature">72°F</div>
+          <p>Sunny in San Francisco</p>
+          <p style="font-size: 0.9rem; color: #666;">Perfect weather for reading news!</p>
+        </div>
+        
+        <div class="widget">
+          <h3><i class="fas fa-history"></i> Recent Activity</h3>
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="activity-content">
+                <p>Saved "AI Research Breakthrough" to favorites</p>
+                <div class="activity-time">2 hours ago</div>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <div class="activity-content">
+                <p>Searched for "climate change policy"</p>
+                <div class="activity-time">4 hours ago</div>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="activity-content">
+                <p>Asked AI about technology trends</p>
+                <div class="activity-time">5 hours ago</div>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-book-open"></i>
+              </div>
+              <div class="activity-content">
+                <p>Read "Global Economic Update"</p>
+                <div class="activity-time">6 hours ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Load user data from localStorage
+    window.addEventListener('load', () => {
+      const savedProfile = JSON.parse(localStorage.getItem('newsbot-profile') || '{}');
+      if (savedProfile.firstName) {
+        document.getElementById('user-name').textContent = savedProfile.firstName;
+      }
+      
+      const favorites = JSON.parse(localStorage.getItem('newsbot-favorites') || '[]');
+      document.getElementById('total-favorites').textContent = favorites.length;
+      
+      // Simulate daily stats (in a real app, these would come from a server)
+      const dailyStats = JSON.parse(localStorage.getItem('newsbot-daily-stats') || '{}');
+      const today = new Date().toDateString();
+      
+      if (!dailyStats[today]) {
+        dailyStats[today] = {
+          articlesRead: Math.floor(Math.random() * 20) + 5,
+          searches: Math.floor(Math.random() * 15) + 3,
+          readingTime: Math.floor(Math.random() * 120) + 30,
+          aiConversations: Math.floor(Math.random() * 10) + 2
+        };
+        localStorage.setItem('newsbot-daily-stats', JSON.stringify(dailyStats));
+      }
+      
+      const todayStats = dailyStats[today];
+      document.getElementById('articles-read-today').textContent = todayStats.articlesRead;
+      document.getElementById('searches-today').textContent = todayStats.searches;
+      document.getElementById('reading-time').textContent = todayStats.readingTime + 'm';
+      document.getElementById('ai-conversations').textContent = todayStats.aiConversations;
+      
+      // Draw reading activity chart
+      drawReadingChart();
+    });
+    
+    function drawReadingChart() {
+      const canvas = document.getElementById('reading-chart');
+      const ctx = canvas.getContext('2d');
+      
+      // Sample data for the last 7 days
+      const data = [8, 12, 15, 10, 18, 14, 20];
+      const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const margin = 50;
+      const chartWidth = canvasWidth - 2 * margin;
+      const chartHeight = canvasHeight - 2 * margin;
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      // Set styles
+      ctx.strokeStyle = '#4361ee';
+      ctx.fillStyle = 'rgba(67, 97, 238, 0.1)';
+      ctx.lineWidth = 3;
+      ctx.font = '14px Arial';
+      ctx.textAlign = 'center';
+      
+      // Draw chart background
+      ctx.fillStyle = '#f8f9fa';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      
+      // Draw line chart
+      const maxValue = Math.max(...data);
+      const stepX = chartWidth / (data.length - 1);
+      
+      ctx.beginPath();
+      ctx.moveTo(margin, canvasHeight - margin - (data[0] / maxValue) * chartHeight);
+      
+      for (let i = 1; i < data.length; i++) {
+        const x = margin + i * stepX;
+        const y = canvasHeight - margin - (data[i] / maxValue) * chartHeight;
+        ctx.lineTo(x, y);
+      }
+      
+      ctx.strokeStyle = '#4361ee';
+      ctx.stroke();
+      
+      // Fill area under line
+      ctx.lineTo(margin + (data.length - 1) * stepX, canvasHeight - margin);
+      ctx.lineTo(margin, canvasHeight - margin);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(67, 97, 238, 0.1)';
+      ctx.fill();
+      
+      // Draw data points and labels
+      ctx.fillStyle = '#4361ee';
+      for (let i = 0; i < data.length; i++) {
+        const x = margin + i * stepX;
+        const y = canvasHeight - margin - (data[i] / maxValue) * chartHeight;
+        
+        // Draw point
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Draw label
+        ctx.fillStyle = '#666';
+        ctx.fillText(labels[i], x, canvasHeight - 10);
+        
+        // Draw value
+        ctx.fillText(data[i], x, y - 15);
+        
+        ctx.fillStyle = '#4361ee';
+      }
+      
+      // Draw title
+      ctx.fillStyle = '#333';
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('Articles Read This Week', canvasWidth / 2, 30);
+    }
+  </script>
+</body>
+</html>
