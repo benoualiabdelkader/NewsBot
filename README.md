@@ -7,6 +7,9 @@
 
 > An intelligent news chatbot powered by Google's Gemini AI that provides real-time news updates, summaries, and analysis across multiple categories.
 
+![Screenshot](images/Capture.PNG)
+![Screenshot](images/llll.PNG)
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
