@@ -54,11 +54,7 @@
 
 Visit the live demo: [NewsBot Showcase](http://localhost:3000)
 
-### Screenshots
 
-| Landing Page | Chat Interface | Dashboard |
-|-------------|----------------|-----------|
-| ![Landing](https://via.placeholder.com/300x200) | ![Chat](https://via.placeholder.com/300x200) | ![Dashboard](https://via.placeholder.com/300x200) |
 
 ## 📦 Installation
 
