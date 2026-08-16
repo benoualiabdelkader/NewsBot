@@ -21,7 +21,7 @@ app.get('/app', (req, res) => {
 
 // Add status page route
 app.get('/status', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'status.html'));
+  res.sendFile(path.join(__dirname, 'status.html'));
 });
 
 // Add new page routes
@@ -57,8 +57,9 @@ app.get('/bookmarks', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'bookmarks.html'));
 });
 
-// API Key 
-const apiKey = "your_api_key";
+// Server-side API key. Set GEMINI_API_KEY in the deployment environment.
+// The placeholder keeps the demo safe to clone and inspect without credentials.
+const apiKey = process.env.GEMINI_API_KEY || "your_api_key";
 const genAI = new GoogleGenerativeAI(apiKey);
 
 // Model configuration
