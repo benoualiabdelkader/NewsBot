@@ -1,17 +1,18 @@
 {
-  "name": "chatbot",
+  "name": "newsbot",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
-    "express": "^4.21.0" 
+    "express": "^4.21.0"
   },
   "devDependencies": {},
-  "description": ""
+  "description": "Demo AI news assistant powered by Google's Gemini API"
 }

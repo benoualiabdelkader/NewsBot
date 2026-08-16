@@ -1,291 +1,124 @@
-# 🤖 NewsBot - AI-Powered News Assistant
+# NewsBot
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18.0+-green.svg)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-4.21.0-blue.svg)](https://expressjs.com/)
-[![Google AI](https://img.shields.io/badge/Google-Gemini%201.5%20Flash-orange.svg)](https://ai.google.dev/)
+NewsBot is a **demo AI news assistant** built with Node.js, Express, vanilla JavaScript, and Google's Gemini SDK. It provides a styled news-oriented interface, a server-side chat endpoint, local browser interactions, and several showcase pages.
 
-> An intelligent news chatbot powered by Google's Gemini AI that provides real-time news updates, summaries, and analysis across multiple categories.
+> **Status:** This repository is a demonstrator, not a production news service. The main news feed, trending stories, live-stream cards, and search experience currently use mock data or local demo behavior. They are not connected to a live news provider in the current codebase.
 
-![Screenshot](images/Capture.PNG)
-![Screenshot](images/llll.PNG)
+## What is implemented
 
-## 📋 Table of Contents
+The repository currently contains the following verified capabilities:
 
-- [Features](#-features)
-- [Demo](#-demo)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [API Endpoints](#-api-endpoints)
-- [Project Structure](#-project-structure)
-- [Technologies Used](#-technologies-used)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
+- A Node.js/Express server serving the static application and several page routes.
+- A `/chat` endpoint that sends validated text prompts to the Gemini model configured in `server.js`.
+- A browser-based chat interface that posts messages to `/chat`.
+- Static pages for the landing view, application, status, about, contact, privacy, terms, help, account, dashboard, and bookmarks views.
+- Local browser preferences, profile data, daily demo statistics, and bookmarks implemented with `localStorage`.
+- A responsive visual interface with category sections, mock news cards, a mock live-news area, and placeholder-based image fallback behavior.
 
-## ✨ Features
+## Important limitations
 
-### 🎯 Core Capabilities
-- **Real-time News Updates**: Get the latest news across multiple categories
-- **AI-Powered Responses**: Leverages Google's Gemini 1.5 Flash model for intelligent conversations
-- **Multi-Category Coverage**: World, Technology, Sports, Entertainment, Business, Health, Science, Politics
-- **News Summarization**: Concise summaries of complex news stories
-- **Fact-Checking**: Helps verify information and distinguish reliable sources
-- **Historical Context**: Provides background information for current events
+The following features are presented as part of the interface but are **not fully backed by live services** in this repository:
 
-### 🎨 User Interface
-- **Modern Responsive Design**: Clean, professional interface that works on all devices
-- **Interactive Chat Interface**: Real-time messaging with formatted responses
-- **Multiple Page Navigation**: About, Contact, Privacy, Terms, Help, Dashboard
-- **User Account Management**: Account page for user preferences
-- **Bookmarking System**: Save interesting news articles and topics
-- **Status Monitoring**: Server status and health monitoring
+- The news feed, trending news, live streams, and search results are driven by hard-coded mock data in `public/script.js`.
+- News dates, sources, links, and media shown by the mock feed should not be treated as current or verified reporting.
+- Fact-checking, source cross-referencing, historical context, and trend analysis are prompt-level intentions for the chatbot, not independently verified journalistic capabilities.
+- The dashboard uses local browser data and simulated statistics; it is not a server-backed account or monitoring system.
+- Bookmarks and profile preferences are stored in the current browser only. There is no authentication or shared persistence layer.
+- The image `public/assets/placeholder.jpg` is a known placeholder asset. It should be replaced with a properly licensed product asset before presenting the interface as production-ready.
 
-### 🔧 Technical Features
-- **Express.js Backend**: Fast and lightweight web server
-- **Static File Serving**: Optimized asset delivery
-- **Error Handling**: Comprehensive 404 and error management
-- **Input Validation**: Security measures against malicious inputs
-- **Response Formatting**: Markdown-styled responses with proper structure
-- **Logging System**: Combined and error logging for monitoring
+## Requirements
 
-## 🚀 Demo
+- Node.js 18 or newer.
+- npm.
+- A Google Gemini API key for live chat requests. Obtain one through [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-Visit the live demo: [NewsBot Showcase](http://localhost:3000)
+## Installation and local run
 
+Clone the repository and install the declared dependencies:
 
-
-## 📦 Installation
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18.0 or higher)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-- Google AI API Key ([Get one here](https://ai.google.dev/))
-
-### Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/benoualiabdelkader/NewsBot.git
-   cd NewsBot
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment**
-   - Copy `.env.example` to `.env`
-   - Add your Google AI API key (see [Configuration](#-configuration))
-
-4. **Start the server**
-   ```bash
-   npm start
-   ```
-
-5. **Open your browser**
-   ```
-   http://localhost:3000
-   ```
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Google AI Configuration
-GOOGLE_AI_API_KEY=your_api_key_here
-
-# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Logging
-LOG_LEVEL=info
+```bash
+git clone https://github.com/benoualiabdelkader/NewsBot.git
+cd NewsBot
+npm install
 ```
 
-### API Key Setup
+Set the server-side key in the environment that launches Node.js. The application reads `GEMINI_API_KEY`; it does not require a credential to inspect the repository or load the static pages.
 
-1. Visit [Google AI Studio](https://ai.google.dev/)
-2. Create a new project or select an existing one
-3. Enable the Generative AI API
-4. Generate an API key
-5. Add the key to your environment configuration
-
-⚠️ **Security Note**: Never commit your API key to version control. Always use environment variables.
-
-## 🎮 Usage
-
-### Starting a Conversation
-
-1. Navigate to the main application at `/app`
-2. Type your news-related question in the chat interface
-3. NewsBot will provide intelligent, formatted responses
-
-### Example Queries
-
-```
-"What are today's top technology news?"
-"Summarize the latest developments in AI"
-"Tell me about recent sports headlines"
-"What's happening in world politics?"
-"Explain the latest health research findings"
+```bash
+export GEMINI_API_KEY="your_api_key_here"
+npm start
 ```
 
-### Navigation
+Open [http://localhost:3000](http://localhost:3000). Without a valid key, the static demo pages can still be inspected, but chat requests will not produce a Gemini response.
 
-- **Home**: `/` - Landing page with project showcase
-- **App**: `/app` - Main chat interface
-- **Dashboard**: `/dashboard` - User dashboard
-- **About**: `/about` - Information about the project
-- **Contact**: `/contact` - Contact information
-- **Help**: `/help` - Usage guide and FAQ
+Do not commit real API keys. Keep local values outside Git, for example in a shell environment, a deployment secret store, or an untracked `.env` file loaded by your chosen process manager.
 
-## 🔗 API Endpoints
+## Routes
 
-### Chat API
+| Route | Purpose |
+| --- | --- |
+| `/` | Showcase/landing page |
+| `/app` | Main application page |
+| `/status` | Static status page |
+| `/about` | Project information |
+| `/contact` | Contact and FAQ content |
+| `/privacy` | Privacy information page |
+| `/terms` | Terms information page |
+| `/help` | Help and FAQ page |
+| `/account` | Local profile and preference demo |
+| `/dashboard` | Local dashboard demo |
+| `/bookmarks` | Local bookmark demo |
+| `/chat` | `POST` endpoint for Gemini chat requests |
 
-**POST** `/chat`
+A chat request has the following shape:
 
-Send a message to NewsBot and receive an AI-generated response.
-
-#### Request Body
 ```json
 {
-  "message": "Your news question here"
+  "message": "Summarize the latest developments in artificial intelligence."
 }
 ```
 
-#### Response
-```json
-{
-  "response": "Formatted AI response with news information"
-}
-```
+The server rejects missing, empty, or overlong messages. The response is JSON containing a formatted text response when the Gemini request succeeds.
 
-#### Error Responses
-- `400`: Invalid or missing message
-- `500`: Server error
+## Project structure
 
-### Static Routes
-
-| Route | Description | File Served |
-|-------|-------------|-------------|
-| `GET /` | Landing page | `showcase.html` |
-| `GET /app` | Main application | `public/index.html` |
-| `GET /status` | Server status | `public/status.html` |
-| `GET /about` | About page | `public/about.html` |
-| `GET /contact` | Contact page | `public/contact.html` |
-| `GET /dashboard` | User dashboard | `public/dashboard.html` |
-
-## 📁 Project Structure
-
-```
+```text
 NewsBot/
-├── 📁 public/                 # Static frontend files
-│   ├── 🎨 assets/            # Images and icons
-│   │   ├── logo.svg
-│   │   ├── logo-white.svg
-│   │   └── category icons...
-│   ├── 🎯 index.html         # Main chat interface
-│   ├── 📱 dashboard.html     # User dashboard
-│   ├── ℹ️ about.html         # About page
-│   ├── 📞 contact.html       # Contact page
-│   ├── 🎨 style.css          # Main stylesheet
-│   ├── ⚡ script.js          # Frontend JavaScript
-│   └── 📄 other pages...
-├── 🚀 server.js              # Main Express server
-├── 🔧 package.json           # Dependencies and scripts
-├── 📋 README.md              # Project documentation
-├── 🚫 404.html               # Custom 404 page
-├── 🎪 showcase.html          # Landing page
-├── 📊 status.html            # Status monitoring
-└── 📝 logs/                  # Application logs
-    ├── combined.log
-    └── error.log
+├── public/                 # Static frontend pages, scripts, styles, and assets
+├── server.js               # Express server and /chat endpoint
+├── showcase.html           # Landing/showcase page
+├── 404.html                # Custom not-found page
+├── package.json            # npm metadata and scripts
+├── package-lock.json       # Locked dependency tree
+├── LICENSE                 # MIT License
+└── .gitignore              # Local and generated files excluded from Git
 ```
 
-## 🛠️ Technologies Used
+The repository intentionally does not track `node_modules/`. Run `npm install` to recreate dependencies locally.
 
-### Backend
-- **[Node.js](https://nodejs.org/)**: JavaScript runtime
-- **[Express.js](https://expressjs.com/)**: Web application framework
-- **[@google/generative-ai](https://www.npmjs.com/package/@google/generative-ai)**: Google AI SDK
+The two historical development captures are retained under `docs/screenshots/` with descriptive names for documentation reference only. They are not loaded by the application. The one-byte file `images/screenshot` was removed because it was not a valid image and had no references.
 
-### Frontend
-- **HTML5**: Semantic markup
-- **CSS3**: Modern styling with CSS Grid and Flexbox
-- **Vanilla JavaScript**: Interactive functionality
-- **Responsive Design**: Mobile-first approach
+## API-key design debt
 
-### AI & APIs
-- **Google Gemini 1.5 Flash**: Advanced language model for news analysis
-- **Custom System Instructions**: Specialized prompts for news assistance
+The frontend still contains placeholder constants and commented integration paths for external news, video, search, and Gemini services in `public/script.js`. They are not live credentials, but keeping API-key-shaped configuration in browser code is a design debt: any real key placed there would be exposed to every visitor and could incur unauthorized usage.
 
-### Development Tools
-- **npm**: Package management
-- **Git**: Version control
-- **VS Code**: Development environment
+This cleanup records the issue without redesigning the frontend integrations. A future production pass should move all privileged API calls to server-side routes, apply provider restrictions and quotas, remove unused client-side key constants, and connect the interface to a verified news source before making real-time or fact-checking claims.
 
-## 🤝 Contributing
+## Development notes
 
-We welcome contributions! Please follow these steps:
+The current `npm test` command is a placeholder and exits with an error because no automated test suite is configured yet. Manual verification should include starting the server, loading the static routes, checking the `/chat` validation responses, and testing the chat path with a valid Gemini key in a controlled environment.
 
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Make your changes**
-4. **Commit your changes**
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-5. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-6. **Open a Pull Request**
+The repository cleanup deliberately does **not** rewrite Git history. Older commits may contain the former placeholder-based key configuration. A historical secret purge or force push is outside this cleanup and requires separate explicit approval.
 
-### Development Guidelines
+## Contributing
 
-- Follow the existing code style
-- Add comments for complex logic
-- Test your changes thoroughly
-- Update documentation as needed
+Create a focused branch, keep changes reviewable, avoid committing secrets or generated dependencies, and open a Pull Request with a clear description of the verification performed.
 
-### Bug Reports
+## License
 
-Please use the [GitHub Issues](https://github.com/benoualiabdelkader/NewsBot/issues) page to report bugs.
+NewsBot is distributed under the [MIT License](LICENSE). Copyright is attributed to **Benouali Abdelkader**.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-**Benouali Abdelkader**
+## Contact
 
 - GitHub: [@benoualiabdelkader](https://github.com/benoualiabdelkader)
-- Email: [abdelkaderbenouali301@gmail.com](mailto:abdelkaderbenouali301@gmail.com)
-- Project Link: [https://github.com/benoualiabdelkader/NewsBot](https://github.com/benoualiabdelkader/NewsBot)
-
-## 🙏 Acknowledgments
-
-- [Google AI](https://ai.google.dev/) for providing the Gemini API
-- [Express.js](https://expressjs.com/) team for the excellent framework
-- All contributors who help improve this project
-
----
-
-<div align="center">
-
-**⭐ Don't forget to star this repo if you found it helpful! ⭐**
-
-Made with ❤️ by [Benouali Abdelkader](https://github.com/benoualiabdelkader)
-
-</div>
+- Repository: [benoualiabdelkader/NewsBot](https://github.com/benoualiabdelkader/NewsBot)
